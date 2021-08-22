@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>导师报告</title>
+    <link rel="stylesheet" href="../common/layui-v2.6.8/layui/css/layui.css">
+    <script src="../common/layui-v2.6.8/layui/layui.js"></script>
+    <script src="../common/echarts-5.1.2/echarts.min.js" ></script>
+</head>
+<body>
+<div class="layui-main">
+    <!-- P0 -->
+    <div>
+        <img src="../img/head_title.png" >
+    </div>
+    <!-- P1 -->
+    <h1 style="color: #0C75A1;font-family: 'Microsoft YaHei UI Light'"><b>${p.name0}教授</b></h1>
+    <h4>${p.name1}导师</h4>
+    <h4>邮箱:${p.email}</h4>
+    <h4>电话:${p.phone}</h4>
+    <div id="p1" style="width: 800px;height:600px;"></div>
+
+    <!-- P2_1业界水平 -->
+    <div id="p2_1" style="width: 800px;height:600px;"></div>
+    <h5>${p.p2_text_first_article}第一作者文章量</h5>
+    <h5>${p.p2_text_max_factor}最高因子</h5>
+    <h5>${p.p2_text_H_index}H-index</h5>
+
+    <!-- P2_2文章数量和引用趋势 -->
+    <h4>合作者数量${p.p3_text_n1}</h4>
+    <h4>出国经历${p.p3_text_v2}</h4>
+    <h4>主要职称${p.p3_text_v3}</h4>
+    <h4>重要职务${p.p3_text_v4}</h4>
+    <h4>担任编辑${p.p3_text_v5}</h4>
+    <div id="p2_2" style="width: 800px;height:600px;"></div>
+
+    <!-- P3业界水平(百分制) -->
+    <div id="p3" style="width: 800px;height:600px;"></div>
+
+    <!-- 总结 -->
+    <h3>1.研究方向</h3>
+    <p>${p.end_text_n1}</p>
+    <h3>2.导师画像</h3>
+    <p>${p.end_text_n2}</p>
+    <h3>3.硕士发文可能性</h3>
+    <p>${p.end_text_n3}</p>
+    <h3>4.2016-20年第一作者文章数据</h3>
+    <p>1.xxxxxx</p>
+    <p>2.xxxxxx</p>
+    <p>3.xxxxxx</p>
+    <p>4.xxxxxx</p>
+    <p>5.xxxxxx</p>
+    <p>6.xxxxxx</p>
+    <p>7.xxxxxx</p>
+    <h3>5.不良评价</h3>
+    <p>无</p>
+
+    <div>
+        <span>报告日期:xxx</span>
+        <span>分析耗时:xxx</span>
+    </div>
+
+</div>
+
+<script type="text/javascript">
+    //导师信息
+    var Tobject = {
+        name0: "",  // 教授名称
+        name1: "",  // 导师名称
+        email: "",  // 邮箱
+        phone: "",  // 电话
+    };
+
+    var p1_chart = echarts.init(document.getElementById('p1'));
+    var p1_data_name = ['得分1'];
+    var p1_data_max = [
+        { name: "文章", max: '${p.p1_score_articleMa}'},
+        { name: '平台', max: '${p.p1_score_platformMa}'},
+        { name: '上升力', max: '${p.p1_score_upwardMa}'},
+        { name: '经费', max: '${p.p1_score_fundingMa}'},
+        { name: '人脉', max: '${p.p1_score_contactsMa}'}
+        ];
+    var p1_data = [
+        {
+            value: [${p.p1_score_article}, ${p.p1_score_platform}, ${p.p1_score_upward}, ${p.p1_score_funding}, ${p.p1_score_contacts}],
+            name: "得分1"
+        }
+    ];
+    p1_option = {
+        animation: false,
+        title: {
+            //text: '得分情况'
+        },
+        legend: {
+            data: p1_data_name
+        },
+        radar: {
+            // shape: 'circle',
+            indicator: p1_data_max
+        },
+        series: [{
+            name: '得分',
+            type: 'radar',
+            data: p1_data
+        }]
+    };
+    p1_chart.setOption(p1_option);
+
+    var p2_1_chart = echarts.init(document.getElementById('p2_1'));
+    var p2_1Title = '业界水平(百分制)';
+    var p2_1Ydata = ['近五年一作量', 'H-index', '五年最高因子'];
+    var p2_1ldata = ['data'];
+    var p2_1sdata = [{name: 'data', type: 'bar', data: [${p.p2_five_year_one_cot}, ${p.p2_H_index}, ${p.p2_five_yearMa}]}];
+    var p2_1text = ['${p.p2_text_first_article}', '${p.p2_text_max_factor}', '${p.p2_text_H_index}'];// xx-xx年第一作者文章量, xx-xx年最高因子, H-index
+    // 业界水平(百分制)
+    p2_1_option = {
+        animation: false,
+        title: {
+            text: p2_1Title//,
+            //subtext: '数据来自网络'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: p2_1ldata
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: p2_1Ydata
+        },
+        series: p2_1sdata
+    };
+    p2_1_chart.setOption(p2_1_option);
+
+    var p2_2chart = echarts.init(document.getElementById('p2_2'));
+    var p2_2_colors = ['#5470C6', '#91CC75'];
+    var p2_2_ldata_name = ['文章数量', '引用次数'];
+    var p2_2_xdata = ['2016', '2017', '2018'];
+    var p2_2_ydata = [
+        {
+            name: '文章数量',
+            type: 'bar',
+            data: [2.0, 4.9, 7.0]
+        },
+        {
+            name: '引用次数',
+            type: 'line',
+            yAxisIndex: 1,
+            data: [2.0, 2.2, 3.3]
+        }
+    ]
+    p2_2_option = {
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'cross',
+                crossStyle: {
+                    color: p2_2_colors
+                }
+            }
+        },
+        toolbox: {
+            feature: {
+                dataView: {show: true, readOnly: false},
+                magicType: {show: true, type: ['line', 'bar']},
+                restore: {show: true},
+                saveAsImage: {show: true}
+            }
+        },
+        legend: {
+            data: p2_2_ldata_name
+        },
+        xAxis: [
+            {
+                type: 'category',
+                data: p2_2_xdata,
+                axisPointer: {
+                    type: 'shadow'
+                }
+            }
+        ],
+        yAxis: [
+            {
+                type: 'value',
+                name: '数量',
+                min: 0,
+                max: 250,
+                interval: 50,
+                axisLabel: {
+                    formatter: '{value} 个'
+                }
+            },
+            {
+                type: 'value',
+                name: '次数',
+                min: 0,
+                max: 25,
+                interval: 5,
+                axisLabel: {
+                    formatter: '{value} 次'
+                }
+            }
+        ],
+        series: p2_2_ydata
+    };
+    p2_2chart.setOption(p2_2_option);
+
+    var p3_text_obj = {
+        collaborators: 39, // 合作者数量
+        ToExperienceAbroad: "班戈大学（英国）QS 521 博士后 两年\n 哥廷根大学（德国） QS 114 博士 4年\n", // 出国经历
+        mainTitle: "首席副教授", // 主要职称
+        mainJob: "无", // 重要职务
+        jobEdit: "无担任SCI期刊编辑" // 担任编辑
+    };
+
+    var p3_chart = echarts.init(document.getElementById('p3'));
+    var p3_Title = '业界水平(百分制)';
+    var p3_ldata = ['data'];
+    var p3_Ydata = ['合作者数量', '出国经历', '主要职称', '重要职务', '担任编辑'];
+    var p3_sdata = [{name: 'data', type: 'bar', data: [${p.p3_data_d1}, ${p.p3_text_d2}, ${p.p3_text_d3}, ${p.p3_text_d4}, ${p.p3_text_d6}]}];
+    // 业界水平(百分制)
+    p3_option = {
+        animation: false,
+        title: {
+            text: p3_Title//,
+            //subtext: '数据来自网络'
+        },
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow'
+            }
+        },
+        legend: {
+            data: p3_ldata
+        },
+        grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+        },
+        xAxis: {
+            type: 'value',
+            boundaryGap: [0, 0.01]
+        },
+        yAxis: {
+            type: 'category',
+            data: p3_Ydata
+        },
+        series: p3_sdata
+    };
+    p3_chart.setOption(p3_option);
+
+</script>
+
+</body>
+</html>

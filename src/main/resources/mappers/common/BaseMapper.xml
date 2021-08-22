@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xyz.superinterface.daoshicha.common.dao.BaseMapper">
+
+    <sql id="base_column">
+        code,
+        name0,
+        name1,
+        email,
+        phone,
+
+        p1_score_article,
+        p1_score_articleMa,
+        p1_score_platform,
+        p1_score_platformMa,
+
+        p1_score_upward,
+        p1_score_upwardMa,
+
+        p1_score_funding,
+        p1_score_fundingMa,
+
+        p1_score_contacts,
+        p1_score_contactsMa,
+
+        p2_five_yearMa,
+        p2_H_index,
+        p2_five_year_one_cot,
+
+        p2_text_first_article,
+        p2_text_max_factor,
+        p2_text_H_index,
+
+        p3_text_n1,
+        p3_data_d1,
+
+        p3_text_v2,
+        p3_text_d2,
+
+        p3_text_v3,
+        p3_text_d3,
+
+        p3_text_v4,
+        p3_text_d4,
+
+        p3_text_v5,
+        p3_text_d6,
+
+        end_text_n1,
+        end_text_n2,
+        end_text_n3
+    </sql>
+
+    <select id="findBsHtmlParamByName" parameterType="xyz.superinterface.daoshicha.common.bean.BsHtmlParam" resultType="xyz.superinterface.daoshicha.common.bean.BsHtmlParam">
+        select <include refid="base_column"></include>
+        from bs_html_param a
+        where a.name1 = #{p.name1}
+    </select>
+
+    <select id="findBsContextNumListByCdeo" parameterType="java.lang.String" resultType="xyz.superinterface.daoshicha.common.bean.BsContextNum">
+        select
+        code,
+        year,
+        context_num,
+        count_num
+        from bs_contextNum a
+        where a.code = #{code}
+        order by a.year asc
+    </select>
+
+    <select id="findBsContextDataListByCode" parameterType="java.lang.String" resultType="xyz.superinterface.daoshicha.common.bean.BsContextData">
+        select
+        code,
+        end_text_n4_1
+        from bs_context_data a
+        where a.code = #{code}
+    </select>
+
+
+
+
+</mapper>
